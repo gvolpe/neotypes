@@ -3,12 +3,14 @@ package implicits.syntax
 
 import scala.language.{higherKinds, implicitConversions}
 
-private[neotypes] trait AsyncSyntax {
+private[neotypes] abstract class AsyncSyntax extends LowPriorityAsyncOps
+
+private[neotypes] abstract class LowPriorityAsyncOps {
   implicit final def neotypesSyntaxAsync[F[_], A](fa: F[A]): AsyncOps[F, A] =
     new AsyncOps(fa)
 }
 
-final class AsyncOps[F[_], A](private val fa: F[A]) extends AnyVal {
+private[neotypes] class AsyncOps[F[_], A](private val fa: F[A]) extends AnyVal {
   def map[B](f: A => B)(implicit F: Async[F]): F[B] =
     F.map(fa)(f)
 

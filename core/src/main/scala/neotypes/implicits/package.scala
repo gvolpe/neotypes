@@ -1,5 +1,5 @@
 package neotypes
 
 package object implicits {
-  final object all extends mappers.AllMappers with syntax.AllSyntax
+  final object all extends syntax.AllSyntax with mappers.AllMappers
 }
